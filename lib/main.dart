@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:rx_dart_learning/pages/pwa_svg_page.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  return runZonedGuarded(() async {
+    runApp(const MyApp());
+  }, (_, __) {});
 }
 
 class MyApp extends StatelessWidget {
