@@ -18,3 +18,5 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Build PWA
 flutter build web --web-renderer canvaskit --release
+
+flutter packages pub run build_runner build     

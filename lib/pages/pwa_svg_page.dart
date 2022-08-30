@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:rx_dart_learning/gen/assets.gen.dart';
 
 class PwaSvgPage extends StatelessWidget {
   const PwaSvgPage({Key? key}) : super(key: key);
@@ -49,18 +50,50 @@ class PwaSvgPage extends StatelessWidget {
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
                 return index % 2 == 0
-                    ? const _AssetImage(
-                        asset: 'assets/svg/ic_copy.svg',
-                      )
-                    : const _AssetImage(
-                        asset: 'assets/svg/ic_retain.svg',
-                      );
+                    ? Center(child: _ActionIconBg(icon: Assets.svg.icCopy.svg(width: 30, height: 30)))
+                    : Center(child: _ActionIconBg(icon: Assets.svg.icTime.svg(width: 30, height: 30)));
               },
               // 40 list items
-              childCount: 1000,
+              childCount: 100,
             ),
           ),
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: 1000,
+            ),
+          )
         ],
+      ),
+    );
+  }
+}
+
+class _ActionIconBg extends StatelessWidget {
+  final Widget icon;
+  final bool loading;
+  final VoidCallback? onTap;
+
+  const _ActionIconBg({
+    required this.icon,
+    this.loading = false,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        alignment: Alignment.center,
+        height: 40,
+        width: 40,
+        decoration: BoxDecoration(
+          color: Colors.green.shade100,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(12),
+          ),
+        ),
+        child: icon,
       ),
     );
   }
