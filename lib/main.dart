@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:rx_dart_learning/pages/pwa_svg_page.dart';
+import 'package:rx_dart_learning/pages/svg_to_paint.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const PwaSvgPage(),
+      home: const SVGToPaint(),
     );
   }
 }
