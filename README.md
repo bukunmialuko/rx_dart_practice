@@ -20,3 +20,6 @@ samples, guidance on mobile development, and a full API reference.
 flutter build web --web-renderer canvaskit --release
 
 flutter packages pub run build_runner build     
+
+# jovial svg xml generator
+https://svg2vector.com/

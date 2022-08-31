@@ -1,7 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:jovial_svg/jovial_svg.dart';
 import 'package:rx_dart_learning/pages/custom_painter_page.dart';
+import 'package:rx_dart_learning/pages/jovial_svg_page.dart';
 
 const String flutterLogoString = '''
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 953 272">
@@ -18,13 +22,43 @@ const String flutterLogoString = '''
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  final json = await rootBundle.loadString('assets/manifest.json');
+  final typeUnsafe = jsonDecode(json) as List<dynamic>;
+  final assets = List<Asset>.empty(growable: true);
+
+  for (int i = 0; i < typeUnsafe.length; i++) {
+    final name = typeUnsafe[i] as String;
+    final svg = 'assets/svg/$name.svg';
+    String? avd = 'assets/avd/$name.xml';
+    String si = 'assets/si/$name.si';
+    // Disable avd and si if they're not in the asset bundle:
+    try {
+      await rootBundle.load(avd);
+    } on FlutterError catch (_) {
+      avd = null;
+    }
+    await rootBundle.load(si);
+    // SI is required to always be there.
+    assets.add(Asset(svg: svg, avd: avd, si: si));
+  }
+
+  final firstSI = await assets[0].forType(assets[0].defaultType, rootBundle);
+  final secondSI = await assets[1].forType(assets[1].defaultType, rootBundle);
+
+  await (firstSI.prepareImages());
+  await (secondSI.prepareImages());
+
   return runZonedGuarded(() async {
-    runApp(const MyApp());
+    runApp(MyApp(firstSI: firstSI, secondSI: secondSI));
   }, (_, __) {});
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final ScalableImage firstSI;
+  final ScalableImage secondSI;
+
+  const MyApp({Key? key, required this.firstSI, required this.secondSI}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +67,58 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const CustomPainterPage(),
+      home: JovialSvgPage(
+        firstSI: firstSI,
+        secondSI: secondSI,
+      ),
     );
+  }
+}
+
+enum AssetType { si, compact, svg, avd }
+
+class Asset {
+  final String? svg;
+  final String? avd;
+  final String? si;
+
+  Asset({this.svg, this.avd, this.si});
+
+  Future<ScalableImage> forType(AssetType t, AssetBundle b) {
+    switch (t) {
+      case AssetType.svg:
+        return ScalableImage.fromSvgAsset(b, svg!);
+      case AssetType.compact:
+        return ScalableImage.fromSIAsset(b, si!, compact: true);
+      case AssetType.avd:
+        return ScalableImage.fromAvdAsset(b, avd!);
+      case AssetType.si:
+        return ScalableImage.fromSIAsset(b, si!);
+    }
+  }
+
+  String? fileName(AssetType t) {
+    switch (t) {
+      case AssetType.svg:
+        return svg;
+      case AssetType.avd:
+        return avd;
+      case AssetType.compact:
+      case AssetType.si:
+        return si;
+    }
+  }
+
+  AssetType get defaultType {
+    return AssetType.avd;
+
+    if (si != null) {
+      return AssetType.si;
+    } else if (svg != null) {
+      return AssetType.svg;
+    } else {
+      assert(avd != null);
+      return AssetType.avd;
+    }
   }
 }

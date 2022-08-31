@@ -40,7 +40,7 @@ dependencies:
 #  vector_graphics: ^0.0.2
 #  vector_graphics_compiler: ^0.0.2
 #  vector_graphics_codec: ^0.0.2
-#  jovial_svg: ^1.1.5
+  jovial_svg: ^1.1.5
 #  photo_view: ^0.14.0
   jdenticon_dart: ^2.0.0
   svg_to_paint: ^1.0.10
@@ -73,5 +73,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+   - assets/
    - assets/svg/
+   - assets/si/
+   - assets/avd/
 
