@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:rx_dart_learning/pages/custom_painter_page.dart';
 import 'package:rx_dart_learning/pages/svg_to_paint.dart';
 
 Future<void> main() async {
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SVGToPaint(),
+      home: const CustomPainterPage(),
     );
   }
 }
