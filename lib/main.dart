@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:rx_dart_learning/pages/custom_painter_page.dart';
+import 'package:rx_dart_learning/pages/pwa_svg_page.dart';
 
 const String flutterLogoString = '''
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 953 272">
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const CustomPainterPage(),
+      home: const PwaSvgPage(),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:rx_dart_learning/main.dart';
 
 class RawSvgPage extends StatefulWidget {
   const RawSvgPage({Key? key}) : super(key: key);
@@ -9,8 +10,7 @@ class RawSvgPage extends StatefulWidget {
 }
 
 class _RawSvgPageState extends State<RawSvgPage> {
-//   final String rawSvg = '''<svg viewBox="...">...</svg>''';
-//   final DrawableRoot svgRoot = await svg.fromSvgString(rawSvg, rawSvg);
+  // final DrawableRoot svgRoot = await svg.fromSvgString(flutterLogoString, flutterLogoString);
 //
 // // If you only want the final Picture output, just use
 //   final Picture picture = svgRoot.toPicture();
